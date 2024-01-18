@@ -26,9 +26,8 @@ SECRET_KEY = 'django-insecure-hjmu4q-!%q5vo@ip3rq57lpx8oq=i8+y_lstjsmj4-!)8)wl7a
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://baanhaocoffee-production.up.railway.app','http://127.0.0.1:8000']
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
