@@ -1,0 +1,139 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+{% load humanize %}
+
+<div class="text-xl text-center mt-5 mb-5 font-extrabold">{% if user.is_staff %}แดชบอร์ด ผู้จัดการ{% else %}แดชบอร์ด{% endif %}</div>
+
+<div class="container mx-auto ">
+    <div>
+
+        <div
+            class="bg-white relative border border-gray-500 shadow shadow-2xl rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
+
+
+            <div class="mt-10">
+                <h1 class="font-bold text-center text-3xl text-gray-900">{{user.first_name|title}}&nbsp;
+                    {{user.last_name|title}}</h1>
+                <p class="text-center text-sm text-gray-400 font-medium">ชื่อผู้ใช้ : {{user}}</p>
+                
+                <h1 class="font-bold text-center text-xl text-gray-900">เลขสมาชิก :
+                    {% if user_profile.phone_number == None %}
+                    ยังไม่มีเบอร์โทร
+
+                    <a href="{% url 'edit_profile' %}"
+                        class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-black to-yellow-600 hover:from-pink-600 hover:to-red-500 active:from-pink-700 active:to-red-600 focus-visible:ring ring-pink-300 text-white font-semibold text-center text-lg rounded-md outline-none transition duration-100 px-5 py-1">
+                        <i class="fa-solid fa-square-phone-flip"></i></i>&nbsp;เพิ่มเบอร์
+                    </a>
+
+                    {% else %}
+                    {{ user_profile.phone_number }}
+
+                    <main class="flex justify-center items-center">
+                        <div id="qrcode" class="w-1/1 p-6 bg-white rounded-md">
+                           
+                        </div>
+                    </main>
+
+
+                    {% endif %}
+                </h1>
+
+
+
+                <div class="my-2 px-10">
+                    <a href="#"
+                        class="text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-2 bg-gray-900 hover:bg-black hover:text-white">คะแนนสะสม
+                        <span class="font-bold">{% if user_points.total_points %}{{ user_points.total_points }}{% else %}0{% endif %} คะแนน</span><br>
+                        <span class="text-sm">100 คะแนน = 1 ฿</span><br>
+                        <span class="font-bold text-sm">ยอดคงเหลือ {{ point|floatformat:2 }} ฿</span>
+                    </a>
+                </div>
+                
+                <div class="flex justify-between items-center my-2 px-6">
+                    <a href=""
+                        class="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-lg text-center w-full py-3"><i
+                            class="fa-solid fa-envelope"></i>&nbsp; {{ user.email }}</a>
+                </div>
+
+
+                <main>
+
+                </main>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+                </script>
+
+                <script>
+                    var qrcode = new QRCode("qrcode", {
+                        text: "{{ user_profile.phone_number }}",
+                        width: 128,  // ปรับขนาดของ QR code ตามที่คุณต้องการ
+                        height: 128,
+                    });
+                </script>
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="py-16">
+
+    <div class="flex flex-wrap justify-center gap-4 p-4">
+        {% if user.is_staff %}
+        <a href="{% url 'add_points' %}"
+            class="flex sm:inline-flex justify-center items-center bg-white border border-[#3b3b3b] text-black hover:bg-[#3b3b3b] hover:text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+            <i class="fa-solid fa-whiskey-glass"></i>&nbsp;เพิ่มคะแนนสมาชิก
+        </a>
+        <a href="{% url 'show_foods' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-indigo-500 to-purple-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+            <i class="fa-solid fa-utensils"></i>&nbsp;รายการอาหาร
+        </a>
+
+        <a href="{% url 'admin_order' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-lime-500 to-lime-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+            <i class="fa-solid fa-cash-register"></i>&nbsp;คำสั่งซื้อ
+        </a>
+
+        <a href="{% url 'order_history_admin' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-pink-500 to-red-400 hover:from-pink-600 hover:to-red-500 active:from-pink-700 active:to-red-600 focus-visible:ring ring-pink-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-2">
+            <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;ประวัติการสั่งซื้อ
+        </a>
+
+        <a href="{% url 'show_pets' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-gray-500 to-gray-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+            <i class="fa-solid fa-paw"></i>&nbsp;รายการสัตว์เลี้ยง
+        </a>
+        {% else %}
+        <a href="{% url 'cart_detail' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-orange-500 to-orange-300 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+            <i class="fa-solid fa-whiskey-glass"></i>&nbsp;ตะกร้า
+        </a>
+
+        <a href="{% url 'foods' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-indigo-500 to-purple-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+            <i class="fa-solid fa-utensils"></i>&nbsp;รายการอาหาร
+        </a>
+
+        <a href="{% url 'order' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-lime-500 to-lime-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+            <i class="fa-solid fa-cash-register"></i>&nbsp;คำสั่งซื้อ
+        </a>
+
+        <a href="{% url 'order_history' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-pink-500 to-red-400 hover:from-pink-600 hover:to-red-500 active:from-pink-700 active:to-red-600 focus-visible:ring ring-pink-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-2">
+            <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;ประวัติการสั่งซื้อ
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

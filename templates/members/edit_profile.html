@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+{% load humanize %}
+
+<div class="text-xl text-center mt-5 mb-5 font-extrabold">เพิ่มหมายเลยโทรศัพท์</div>
+
+<div class=" flex-col gap-2 justify-start max-w-xl mx-auto">
+    <h1 class="ml-2 mr-2"><i class="fa-solid fa-address-card"></i></i>&nbsp;&nbsp;บัญชี : {{user}} {{user.first_name}}
+        {{user.last_name}}</h1>
+</div>
+
+
+<div class="m-2">
+    <form class="mx-auto max-w-xl" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="">
+            <button type="submit"
+                class="text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm py-2 px-5 mx-auto">เพิ่มหมายเลยโทรศัพท์</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

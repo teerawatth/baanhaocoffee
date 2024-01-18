@@ -1,0 +1,98 @@
+{% extends 'home.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+<div class="text-xl text-center mt-5 mb-5 font-extrabold">รายการสัตว์เลี้ยง</div>
+
+
+
+<div class="m-2 mb-5">
+    <div class="mx-auto max-w-xl">
+        <main class=" max-w-auto justify-center items-center rounded">
+            <!-- <div id="my-qr-reader" class="rounded-lg"></div> -->
+        </main>
+    </div>
+</div>
+
+<div class="overflow-y-hidden rounded-lg border mb-5 m-2">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-blue-800 text-left text-xs font-semibold uppercase tracking-widest text-white">
+                    <th class="px-5 py-3">เลขประจำตัว</th>
+                    <th class="px-5 py-3">ชื่อ</th>
+                    <th class="px-5 py-3">เพศ</th>
+                    <th class="px-5 py-3">พันธ์ุ</th>
+                    <th class="px-5 py-3">อายุ/ปี</th>
+                    <th class="px-5 py-3">แก้ไข</th>
+                    <th class="px-5 py-3">ลบ</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-500">
+                {% for p in pets %}
+
+                <tr>
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <p class="whitespace-no-wrap">{{ p.id }}</p>
+                    </td>
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <a href="{% url 'pets' p.id %}">
+
+                            <div class="flex items-center">
+                                <div class="h-10 w-10 flex-shrink-0">
+                                    <img class="h-full w-full rounded-full"
+                                        src="{% if p.profile %} {{ p.profile.url }} {% else %}{% endif %}" alt="" />
+                                </div>
+                                <div class="ml-3">
+                                    <p class="whitespace-no-wrap">{{p.name}}</p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </td>
+
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <p class="whitespace-no-wrap">{{p.sex}}</p>
+                    </td>
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <p class="whitespace-no-wrap">{{p.breed}}</p>
+                    </td>
+
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <span
+                            class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">{{p.age}}</span>
+                    </td>
+
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <a href="{% url 'update_pets' p.id %}">
+                            <span class="px-3 py-1 text-xs font-semibold text-green-900"><i
+                                class="fa-solid fa-pen-to-square"></i></span>
+                        </a>
+                    </td>
+
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <a href="{% url 'delete_pets' p.id %}">
+                            <span class="px-3 py-1 text-xs font-semibold text-green-900"><i
+                                class="fa-solid fa-trash-can"></i></span>
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="m-2 mb-28 mx-auto text-center">
+    <div class="">
+        <a href="{% url 'add_pets' %}"
+            class="text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm py-2 px-5 mx-auto">เพิ่มสัตว์เลี้ยง</a>
+    </div>
+</div>
+
+{% endblock %}

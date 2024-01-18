@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <link rel="shortcut icon" href="https://th.seaicons.com/wp-content/uploads/2015/06/Animals-Cat-Footprint-icon.png"
+        type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/th.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/html5-qrcode@2.0.9/dist/html5-qrcode.min.css" rel="stylesheet">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,700;1,800&display=swap"
+        rel="stylesheet">
+        
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+    {% load humanize %}
+
+</head>
+
+</head>
+
+<body style="font-family: 'K2D', sans-serif;">
+
+
+    <nav class="bg-[#E8C11C] py-4 justify-between text-black">
+        <a href="/" class="ml-2 text-xl"><i class="fa-solid fa-dog"></i><i class="fa-solid fa-cat"></i> คาเฟ่หมาแมว</a>
+
+        {% if user.is_authenticated %}
+        {% if user.is_staff %}
+        <a href="/admin" class="ml-2 text-lg"><button
+                class="focus:outline-none text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-red-900"><i
+                    class="fa-solid fa-solar-panel"></i>&nbsp; แอดมิน แดชบอร์ด </button>
+        </a>
+        <a href="{% url 'dashboard' %}" class="ml-2 text-lg"><button
+                class="focus:outline-none text-white bg-blue-900 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"><i
+                    class="fa-solid fa-solar-panel"></i>&nbsp; แดชบอร์ด </button>
+        </a>
+        {% else %}
+        <a href="{% url 'dashboard' %}" class="ml-2 text-lg"><button
+                class="focus:outline-none text-white bg-blue-900 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"><i
+                    class="fa-solid fa-solar-panel"></i>&nbsp; แดชบอร์ด </button>
+        </a>
+        {% endif %}
+
+
+
+
+
+        <a href="" class="ml-2 text-lg"><button
+                class="focus:outline-none text-black bg-yellow-500 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Hello!
+                &nbsp; <i class="fa-solid fa-user"></i>&nbsp; {{user.username|title}} {{user.first_name|title}}
+                {{user.last_name|title}}</button>
+        </a>
+
+
+        <a href="{% url 'logout' %}" class="ml-2 text-lg"><button
+                class="focus:outline-none text-white bg-red-500 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">ออกจากระบบ
+            </button>
+        </a>
+
+
+        {% else %}
+
+        <a href="{% url 'register' %}" class="ml-2 text-lg"><button
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">สมัครสมาชิก</button></a>
+        <a href="{% url 'login' %}" class="ml-2 text-lg"><button
+                class="focus:outline-none text-black bg-yellow-500 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">เข้าสู่ระบบ</button>
+        </a>
+        {% endif %}
+    </nav>
+
+
+    {% block content %}
+    <div class="text-2xl text-center mt-5 mb-5 font-extrabold"><i class="fa-solid fa-cat"></i> &nbsp;
+        ยินดีต้อนรับสู่หมาแมวคาเฟ่ &nbsp;<i class="fa-solid fa-dog"></i></div>
+    <div class="flex items- justify- ">
+        <div class="swiper-container w-full max-w-xl">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://s359.kapook.com/r/600/auto/pagebuilder/778ebafb-e944-4abd-99c1-e28411656fd4.jpg"
+                        alt="Slide 1" class="w-45 h-45 object-cover">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://media.istockphoto.com/id/1312283557/th/%E0%B8%A3%E0%B8%B9%E0%B8%9B%E0%B8%96%E0%B9%88%E0%B8%B2%E0%B8%A2/%E0%B8%AD%E0%B8%B2%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B9%84%E0%B8%97%E0%B8%A2%E0%B8%84%E0%B8%A5%E0%B8%B2%E0%B8%AA%E0%B8%AA%E0%B8%B4%E0%B8%81.jpg?s=612x612&w=0&k=20&c=QNGNu2l7RHO7deaR3ZPOn2TuHYtnkbskR-V0lsxmPxQ="
+                        alt="Slide 2" class="w-45 h-45 object-cover">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://www.ajinomoto.co.th//storage/photos/shares/our-story/eatwell/mar2023/10menu/6426e00860187.jpg"
+                        alt="Slide 3" class="w-45 h-45 object-cover">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://s3-ap-southeast-1.amazonaws.com/wpimage.powermag.kingpower.com/wp-content/uploads/2022/05/30164914/AA15.jpg"
+                        alt="Slide 4" class="w-45 h-45 object-cover">
+                </div>
+                <!-- Add more slides as needed -->
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true, // Enable loop mode
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+    {% if news %}
+    <div class="max-w-sm mx-auto">
+        <div
+            class="text-xl text-center font-extrabold mt-5 mb-5 bg-green-200 p-3 rounded-md border border-1 border-gray-400 shadow-lg">
+            <i class="fa-solid fa-bullhorn"></i>&nbsp;&nbsp; Daily news
+        </div>
+    </div>
+    {% for n in news %}
+    <div class="m-2 ">
+        <div class="max-w-screen-sm mx-auto border border-2 border-green-400 rounded-lg shadow-2xl text-gray-600">
+            <div class='relative m-0 shadow-lg flex bg-green-400'>
+                <div class='flex-1 card-block relative ml-4'>
+                    <div class="">
+                        <h4 class='font-medium text-xl mb-3 mt-3 text-center'><i class="fa-solid fa-scroll"></i> &nbsp;
+                            {{n.headline}}</h4>
+                        <p class='leading-normal mb-3 text-sm text-center'><i class="fa-regular fa-message"></i> &nbsp;
+                            {{n.desc}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    {% endif %}
+
+
+    {% if suggested_foods %}
+    <div class="max-w-sm mx-auto">
+        <div
+            class="text-xl text-center font-extrabold mt-5 mb-5 bg-green-200 p-3 rounded-md border border-1 border-gray-400 shadow-lg">
+            <i class="fa-solid fa-utensils"></i>&nbsp;&nbsp; เมนูแนะนำ
+        </div>
+    </div>
+
+    {% for f in suggested_foods %}
+    <div class="m-2 ">
+        <div class="max-w-screen-sm mx-auto border border-2 border-gray-800 rounded-lg shadow-2xl text-white">
+            <div class='relative m-0 shadow-lg flex bg-gray-700'>
+                <div class='flex-no-shrink'>
+                    <img alt='' class='w-auto h-32 block mx-auto rounded-tl-lg rounded-bl-lg' src='{{f.img.url}}'>
+                </div>
+                <div class='flex-1 card-block relative ml-4'>
+                    <div class="">
+                        <h4 class='font-medium text-2xl mb-3 mt-3'>{{f.name}}</h4>
+                        <p class='leading-normal'>{{f.price}} ฿</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% else %}
+    {% endif %}
+
+
+    <div class="max-w-sm mx-auto">
+        <div
+            class="text-xl text-center font-extrabold mt-5 mb-5 bg-green-200 p-3 rounded-md border border-1 border-gray-400 shadow-lg">
+            <i class="fa-solid fa-calendar-days"></i>&nbsp;&nbsp; ตารางน้องหมา-น้องแมว
+        </div>
+    </div>
+
+    <div id="calendar"
+        class="max-w-screen-md mx-auto p-4 bg-white mt-5 mb-10 rounded-lg shadow-md border border-gray-500 border-2">
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            moment.locale('th');
+
+            $('#calendar').fullCalendar({
+                events: '/calendar-events/',
+                locale: 'th',
+
+                eventRender: function (event, element) {
+
+                    var eventHtml = '<div class="flex items-center bg-green-600 border-2 border-green-800">';
+                    if (event.image) {
+                        eventHtml += '<div class="items-center">';
+                        eventHtml += '<a href="/pets/' + event.id + '">';
+                        eventHtml += '<img src="' + event.image + '" class="object-cover mx-auto w-auto">';
+                        eventHtml += '</a>';
+                        eventHtml += '<div class="font-bold mt-2 text-center">' + event.title + '</div>';
+                        eventHtml += '<div class="text-sm text-center">' + moment(event.start).format('LT') + '</div>';
+                        eventHtml += '</div></div>';
+
+                        element.find('.fc-content').html(eventHtml);
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+
+    <div class="mx-auto max-w-screen-lg px-4 sm:px-8 mb-28">
+        <div class="flex items-center justify-between pb-6">
+            <div>
+                <h2 class="font-semibold text-gray-700">รายชื่อสัตว์เลี้ยง</h2>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="ml-10 space-x-8 lg:ml-40">
+
+                </div>
+            </div>
+        </div>
+        <div class="overflow-y-hidden rounded-lg border">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-blue-800 text-left text-xs font-semibold uppercase tracking-widest text-white">
+                            <th class="px-5 py-3">เลขประจำตัว</th>
+                            <th class="px-5 py-3">ชื่อ</th>
+                            <th class="px-5 py-3">เพศ</th>
+                            <th class="px-5 py-3">พันธ์ุ</th>
+                            <th class="px-5 py-3">อายุ/ปี</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-500">
+                        {% for p in pets %}
+
+                        <tr>
+                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                                <p class="whitespace-no-wrap">{{ p.id }}</p>
+                            </td>
+                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                                <a href="{% url 'pets' p.id %}">
+
+                                    <div class="flex items-center">
+                                        <div class="h-10 w-10 flex-shrink-0">
+                                            <img class="h-full w-full rounded-full"
+                                                src="{% if p.profile %} {{ p.profile.url }} {% else %}{% endif %}"
+                                                alt="" />
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="whitespace-no-wrap">{{p.name}}</p>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </td>
+
+                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                                <p class="whitespace-no-wrap">{{p.sex}}</p>
+                            </td>
+                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                                <p class="whitespace-no-wrap">{{p.breed}}</p>
+                            </td>
+
+                            <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                                <span
+                                    class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">{{p.age}}</span>
+                            </td>
+
+
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+    {% endblock %}
+</body>
+
+
+</html>

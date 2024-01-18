@@ -1,0 +1,68 @@
+{% extends 'home.html' %}
+
+
+{% block content %}
+
+<div class="text-xl text-center mt-5 mb-5 font-extrabold">เมนูอาหาร</div>
+
+
+<!-- component -->
+<div class="max-w-screen-xl mb-5 rounded-lg shadow-md border border-gray-500 mx-auto flex">
+
+    <!-- main -->
+    <main class="w-full overflow-y-auto">
+        <div class="px-10 mt-5">
+            <span class="uppercase font-bold text-2xl text-black">foods</span>
+        </div>
+        <div class="px-10 grid grid-cols-4 gap-2 mb-5">
+
+            {% for i in foods %}
+
+            <div class="col-span-4 sm:col-span-4 md:col-span-2 lg:col-span-1 xl:col-span-1 flex flex-col items-center">
+
+                <div class="bg-white rounded-lg mt-5">
+                    <img src="{{i.img.url}}" class="h-40 rounded-md border border-gray-500" alt="" />
+                </div>
+                <div class="shadow-lg rounded-lg -mt-4 w-64 border border-gray-500 {% if i.stock == False %} 
+                    bg-gray-300" {% else %} bg-white {% endif %}">
+                    <div class="py-5 px-5 ">
+                        <span class="font-bold text-gray-800 text-lg">{{i.name}}</span>
+                        <div class="items-center justify-between">
+                            <div class="flex justify-between">
+                                <div class="text-sm text-gray-600 font-light">
+                                    สถานะ :
+                                    {% if i.stock == True %}
+                                    พร้อม
+                                    {% else %}
+                                    ไม่พร้อม
+                                    {% endif %}
+                                </div>
+                                <div class="text-lg text-red-600 font-bold">
+                                    {{i.price|floatformat:"2"}} ฿
+                                </div>
+                            </div>
+
+                            <div class="text-sm font-light">
+                                {% if i.stock == True %}
+                                <a href="{% url 'add_to_cart' i.id %}"
+                                    class="px-2 py-1 flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-orange-700 to-orange-300 hover:to-orange-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100">
+                                    <i class="fa-solid fa-cart-plus"></i>&nbsp;เพิ่มลงตะกร้า
+                                </a>
+                                {% else %}
+                                {% endif %}
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </main>
+</div>
+{% endblock %}

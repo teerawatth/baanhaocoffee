@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="text-xl text-center mt-5 mb-5 font-extrabold">เข้าสู่ระบบ</div>
+
+<div class="m-2">
+    <form class="max-w-sm mx-auto" action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form|crispy }}
+
+        <div class="max-w-sm mx-auto text-center">
+            <button type="submit"
+                class="text-black bg-white border border-[#3b3b3b] hover:bg-[#3b3b3b] hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">เข้าสู่ระบบ</button>
+        </div>
+    </form>
+</div>
+<div class="m-5">
+    <div class="max-w-sm mx-auto text-center">
+        <a href="{% url 'password_reset' %}"
+            class="text-black bg-[#ACA8A8] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">ลืมรหัสผ่าน</a>
+    </div>
+</div>
+
+{% endblock %}

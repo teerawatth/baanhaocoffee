@@ -1,0 +1,66 @@
+{% extends 'home.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+<div class="text-xl text-center mt-5 mb-5 font-extrabold">เพิ่มคะแนนสมาชิก</div>
+
+
+
+<div class="m-2 mb-5">
+    <div class="mx-auto max-w-xl">
+        <main class=" max-w-auto justify-center items-center rounded">
+            <!-- <div id="my-qr-reader" class="rounded-lg"></div> -->
+        </main>
+    </div>
+</div>
+
+<div class="m-2">
+    <form class="mx-auto max-w-xl" id="addPointsForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="">
+            <button type="submit"
+                class="text-white bg-orange-700 hover:bg-orange-800 font-medium rounded-lg text-sm py-2 px-5 mx-auto">เพิ่มคะแนนสมาชิก</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+<script>
+    function domReady(fn) {
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            setTimeout(fn, 1000);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+
+    domReady(function () {
+        // If found your qr code
+        function onScanSuccess(decodeText, decodeResult) {
+            // ส่งข้อมูลที่ได้จากสแกนไปกรอกใน phone_number
+            document.getElementById('id_phone_number').value = decodeText;
+
+            // ปิดการสแกน
+            htmlScanner.stop();
+        }
+
+        let htmlScanner = new Html5QrcodeScanner(
+            "my-qr-reader",
+            {
+                fps: 10,
+                qrbox: 250,
+                cameraIdOrConfig: { facingMode: 'environment' },  // 'environment' หมายถึงกล้องหลัง
+                preferredCamera: 0,
+                autoStart: true,
+                disablePermissions: true,
+                disableScan: true
+            }
+        );
+
+        htmlScanner.render(onScanSuccess);
+    });
+</script>
+{% endblock %}

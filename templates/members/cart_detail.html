@@ -1,0 +1,104 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+{% load humanize %}
+
+<div class="text-xl text-center mt-5 mb-5 font-extrabold">ตะกร้าของคุณ</div>
+
+<div class=" flex-col gap-2 justify-start max-w-4xl mx-auto">
+    <h1 class="ml-2 mr-2"><i class="fa-solid fa-list"></i>&nbsp;รายละเอียดตะกร้า</h1>
+</div>
+
+<div class="flex flex-col gap-2 items-center justify-end mt-5 mr-2 ml-2">
+    <!-- Card 1 -->
+    {% if cart_items %}
+    {% for cart_item in cart_items %}
+    <div
+        class="rounded-lg w-full max-w-4xl grid grid-cols-12 bg-white shadow shadow-md p-3 gap-2 items-center border border-gray-500">
+
+        <!-- ตำแหน่งรูปภาพ -->
+        <div class="col-span-1">
+            <img src="{{ cart_item.food.img.url }}" alt="Food Image" class="w-full h-auto rounded">
+        </div>
+
+        <!-- ตำแหน่งข้อความ -->
+        <div class="col-span-10 xl">
+            <p class="text-[#4B5563] font-semibold"> {{ cart_item.food.name }} </p>
+            <p class="text-sm text-gray-800 font-light">จานละ: {{ cart_item.food.price }} - จำนวน: {{ cart_item.quantity }} -
+                ราคารวม: {{ cart_item.total_price }}</p>
+        </div>
+
+
+        <div class="col-span-1 flex justify-end gap-1">
+            <a href="{% url 'increase_quantity' food_id=cart_item.food.id %}" class="text-lg rounded-md  p-1">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+            <a href="{% url 'decrease_quantity' food_id=cart_item.food.id %}" class=" text-lg rounded-md  p-1">
+                <i class="fa-solid fa-minus"></i>
+            </a>
+            <a href="{% url 'remove_from_cart' food_id=cart_item.food.id %}"
+                class="bg-red-700 text-lg rounded-md border border-black p-1">
+                <i class="fa-regular fa-trash-can text-white"></i>
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+    {% else %}
+    <div
+        class="rounded-lg w-full max-w-4xl grid grid-cols-12 bg-white shadow shadow-md p-3 gap-2 items-center border border-gray-500">
+
+        <div class="col-span-10 xl">
+            <p class="text-[#4B5563] font-semibold"> ยังไม่มีรายการอาหาร </p>
+        </div>
+
+    </div>
+    {% endif %}
+
+
+</div>
+
+
+
+<div class=" flex-col gap-2 justify-start max-w-4xl mx-auto">
+    <h1 class="text-lg font-semibold mt-5 ml-2 mr-2"><i
+            class="fa-solid fa-file-invoice-dollar"></i>&nbsp;ราคารวมทั้งหมด: {{ total_price_cart|floatformat:2 }} บาท
+    </h1>
+</div>
+
+{% if cart_items %}
+<div class="py-1">
+    <div class="flex flex-wrap justify-center gap-4 p-3">
+        <a href="{% url 'foods' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-indigo-500 to-purple-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-3">
+                    <i class="fa-solid fa-utensils"></i>&nbsp;เพิ่มรายการอาหาร
+                </a>
+            </div>
+
+            
+    <div class="flex flex-wrap justify-center gap-4 p-3">
+        <!-- <a href="{% url 'create_order' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-orange-500 to-orange-300 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-3">
+            <i class="fa-solid fa-whiskey-glass"></i>&nbsp;
+        </a> -->
+        <form method="post" action="{% url 'create_order' %}">
+            {% csrf_token %}
+            <!-- ... ส่วนอื่น ๆ ... -->
+            <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="number_of_seats" placeholder="เลขโต๊ะ" required>
+            <button class="flex sm:inline-flex justify-center mt-5 items-center bg-gradient-to-tr from-orange-500 to-orange-300 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-3" type="submit">สั่งซื้อ</button>
+        </form>
+
+    </div>
+</div>
+{% else %}
+<div class="flex flex-wrap justify-center gap-4 p-3">
+<a href="{% url 'foods' %}"
+            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-indigo-500 to-purple-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-3">
+            <i class="fa-solid fa-utensils"></i>&nbsp;เพิ่มรายการอาหาร
+        </a>
+    </div>
+{% endif %}
+
+
+{% endblock %}
