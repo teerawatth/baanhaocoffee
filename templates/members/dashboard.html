@@ -14,11 +14,11 @@
 
 
             <div class="mt-10">
-                <h1 class="font-bold text-center text-3xl text-gray-900">{{user.first_name|title}}&nbsp;
-                    {{user.last_name|title}}</h1>
+                <p class="font-bold text-center text-3xl text-gray-900">{{user.first_name|title}}&nbsp;
+                    {{ user.last_name|title }}</p>
                 <p class="text-center text-sm text-gray-400 font-medium">ชื่อผู้ใช้ : {{user}}</p>
                 
-                <h1 class="font-bold text-center text-xl text-gray-900">เลขสมาชิก :
+                <h1 class="font-bold text-center text-xl text-gray-900"><p>หมายเลขสมาชิก :</p>
                     {% if user_profile.phone_number == None %}
                     ยังไม่มีเบอร์โทร
 
