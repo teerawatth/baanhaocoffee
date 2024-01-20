@@ -315,19 +315,8 @@
     </script>
 
 
-
-
+{% if pets %}
     <div class="mx-auto max-w-screen-lg px-4 sm:px-8 mb-28">
-        <div class="flex items-center justify-between pb-6">
-            <div>
-                <h2 class="font-semibold text-black">รายชื่อสัตว์เลี้ยง</h2>
-            </div>
-            <div class="flex items-center justify-between">
-                <div class="ml-10 space-x-8 lg:ml-40">
-
-                </div>
-            </div>
-        </div>
         <div class="overflow-y-hidden rounded-lg border">
             <div class="overflow-x-auto">
                 <table class="w-full">
@@ -386,6 +375,8 @@
 
         </div>
     </div>
+    
+    {% endif %}
 
 
     {% endblock %}
