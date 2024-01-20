@@ -238,7 +238,7 @@ def send_order_email(request):
     total = user_order.total_price
     items = "\n".join([f"{item.food.name} - จำนวน: {item.quantity} ราคา: {item.food.price * item.quantity}" for item in user_order.cart.cartitem_set.all()])
     subject = 'ยืนยันคำสั่งซื้อ'
-    message = f'ขอบคณสำหรับการสั่งซื้อ\n\nรายการสินค้า \n\n{items}\n\nรวม: {total} บาท\n\n'
+    message = f'ขอบคุณสำหรับการสั่งซื้อ\n\nรายการสินค้า \n\n{items}\n\nรวม: {total} บาท\n\n'
     recipient_list = [request.user.email]
     from_email = 'หมาแมวคาเฟ่@Dogcat.com'
     send_mail(subject, message, from_email, recipient_list)
