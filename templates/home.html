@@ -36,7 +36,7 @@
 
 </head>
 
-<body style="font-family: 'K2D', sans-serif;">
+<body class="" style="font-family: 'K2D', sans-serif;">
 
     <nav class="bg-[#7e6663] border-[#3b3b3b] py-2">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
@@ -75,10 +75,11 @@
                     {% if user.is_authenticated %}
                     {% if user.is_staff %}
                     <li>
-                        <a href="/admin"
+                        <a href="/admin/"
                             class="block py-2 pl-3 bg-white pr-4 text-black rounded hover:bg-[#3c3c3c] hover:text-white"
                             aria-current="page">
-                            <i class="fa-solid fa-solar-panel"></i>&nbsp; แอดมิน แดชบอร์ด
+                            <i class="fa-solid fa-building"></i>&nbsp; 
+                            Back Office
                         </a>
                     </li>
                     <li>
@@ -110,18 +111,6 @@
                             class="block py-2 pl-3 pr-4 text-white  rounded bg-[#3b3b3b] border border-gray-100 hover:bg-red-500">ออกจากระบบ</a>
                     </li>
                     {% else %}
-                    <!-- <li>
-                        <a href="{% url 'login' %}"
-                            class="block py-2 pl-3 pr-4 text-white border border-gray-100 rounded bg-[#3b3b3b] hover:bg-gray-500">
-                            เข้าสู่ระบบ
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'register' %}"
-                            class="block py-2 pl-3 pr-4 text-white border border-gray-100 rounded bg-[#3b3b3b] hover:bg-gray-500">
-                            สมัครสมาชิก
-                        </a>
-                    </li> -->
                     {% endif %}
 
                 </ul>
@@ -130,7 +119,6 @@
             <script>
                 var mobileMenu = document.getElementById("mobile-menu-2");
 
-                // แสดง mobile menu ทันทีเมื่อหน้าเว็บโหลดเสร็จ
                 toggleMobileMenu();
 
                 function toggleMobileMenu() {
@@ -142,9 +130,6 @@
                     }
                 }
 
-
-
-                // เพิ่ม event listener สำหรับการคลิกที่ปุ่ม toggle
                 document.querySelector("[data-collapse-toggle='mobile-menu-2']").addEventListener("click", toggleMobileMenu);
             </script>
 
@@ -176,19 +161,15 @@
     {% block content %}
     <div class="text-2xl text-center mt-5 mb-5 m-5 text-black font-extrabold">
         &nbsp;บ้านเฮาคอฟฟี่ Baan Hao Coffee คาเฟ่หมาแมว&nbsp;</div>
+        {% if imgcover %}
 
     <div
         class="w3-content w3-display-container max-w-screen-lg h-96 overflow-hidden relative border-2 border-[#3b3b3b] rounded-lg">
-        <div class="overlay absolute inset-0 w-full h-full bg-black opacity-50 rounded-lg m-2"></div>
+        {% for c in imgcover %}
         <img class="mySlides rounded-lg object-cover h-full absolute inset-0 w-full"
-            src="https://s359.kapook.com/r/600/auto/pagebuilder/778ebafb-e944-4abd-99c1-e28411656fd4.jpg"
+            src="{{c.img.url}}"
             style="width: 100%;">
-        <img class="mySlides rounded-lg object-cover h-full absolute inset-0 w-full"
-            src="https://www.ajinomoto.co.th//storage/photos/shares/our-story/eatwell/mar2023/10menu/6426e00860187.jpg"
-            style="width: 100%;">
-        <img class="mySlides rounded-lg object-cover h-full absolute inset-0 w-full"
-            src="https://s3-ap-southeast-1.amazonaws.com/wpimage.powermag.kingpower.com/wp-content/uploads/2022/05/30164914/AA15.jpg"
-            style="width: 100%;">
+        {% endfor %}
 
         <button class="w3-button w3-black w3-display-left text-white absolute top-1/2 left-0 transform -translate-y-1/2"
             onclick="plusDivs(-1)">&#10094;</button>
@@ -220,6 +201,7 @@
             x[slideIndex - 1].style.display = "block";
         }
     </script>
+        {% endif %}
 
 
 

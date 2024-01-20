@@ -14,16 +14,16 @@
 
 
             <div class="mt-10">
-                <p class="font-bold text-center text-3xl text-gray-900">{{user.first_name|title}}&nbsp;
-                    {{ user.last_name|title }}</p>
+                <h1 class="font-bold text-center text-3xl text-gray-900" style="font-family: K2D,sans-serif;">{{user.first_name|title}}&nbsp;
+                    {{user.last_name|title}}</h1>
                 <p class="text-center text-sm text-gray-400 font-medium">ชื่อผู้ใช้ : {{user}}</p>
                 
-                <h1 class="font-bold text-center text-xl text-gray-900"><p>หมายเลขสมาชิก :</p>
+                <h1 class="font-bold text-center text-xl text-gray-900" style="font-family: K2D,sans-serif;">หมายเลขสมาชิก :
                     {% if user_profile.phone_number == None %}
                     ยังไม่มีเบอร์โทร
 
                     <a href="{% url 'edit_profile' %}"
-                        class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-black to-yellow-600 hover:from-pink-600 hover:to-red-500 active:from-pink-700 active:to-red-600 focus-visible:ring ring-pink-300 text-white font-semibold text-center text-lg rounded-md outline-none transition duration-100 px-5 py-1">
+                        class="flex sm:inline-flex justify-center items-center bg-[#7e6663] text-white hover:bg-white hover:text-gray-600 hover:border hover:border-[#3b3b3b] font-semibold text-center text-lg rounded-md outline-none transition duration-100 px-5 py-1">
                         <i class="fa-solid fa-square-phone-flip"></i></i>&nbsp;เพิ่มเบอร์
                     </a>
 
@@ -81,59 +81,76 @@
     </div>
 </div>
 
-<div class="py-16">
 
-    <div class="flex flex-wrap justify-center gap-4 p-4">
-        {% if user.is_staff %}
-        <a href="{% url 'add_points' %}"
-            class="flex sm:inline-flex justify-center items-center bg-white border border-[#3b3b3b] text-black hover:bg-[#3b3b3b] hover:text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
-            <i class="fa-solid fa-whiskey-glass"></i>&nbsp;เพิ่มคะแนนสมาชิก
-        </a>
-        <a href="{% url 'show_foods' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-indigo-500 to-purple-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
-            <i class="fa-solid fa-utensils"></i>&nbsp;รายการอาหาร
-        </a>
+<div class="container mx-auto  mt-10">
+    <div>
 
-        <a href="{% url 'admin_order' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-lime-500 to-lime-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
-            <i class="fa-solid fa-cash-register"></i>&nbsp;คำสั่งซื้อ
-        </a>
+        <div
+            class="bg-white relative w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
+            <div class="flex flex-wrap justify-center gap-4 p-4">
+                {% if user.is_staff %}
+                <a href="{% url 'add_points' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-brands fa-product-hunt"></i>&nbsp;เพิ่มคะแนนสมาชิก
+                </a>
+                <a href="{% url 'ex_points' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-brands fa-stack-exchange"></i>&nbsp;แลกคะแนนสมาชิก
+                </a>
+                <a href="{% url 'show_foods' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-utensils"></i>&nbsp;รายการอาหาร
+                </a>
+        
+                <a href="{% url 'admin_order' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-cash-register"></i>&nbsp;คำสั่งซื้อ
+                </a>
+        
+                <a href="{% url 'order_history_admin' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;ประวัติการสั่งซื้อ
+                </a>
+        
+                <a href="{% url 'show_pets' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-paw"></i>&nbsp;รายการสัตว์เลี้ยง
+                </a>
+        
+                <a href="{% url 'add_imagecover' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-images"></i>&nbsp;ภาพปก
+                </a>
+        
+                {% else %}
+                <a href="{% url 'cart_detail' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-whiskey-glass"></i>&nbsp;ตะกร้า
+                </a>
+        
+                <a href="{% url 'foods' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-utensils"></i>&nbsp;รายการอาหาร
+                </a>
+        
+                <a href="{% url 'order' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-cash-register"></i>&nbsp;คำสั่งซื้อ
+                </a>
+        
+                <a href="{% url 'order_history' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;ประวัติการสั่งซื้อ
+                </a>
+                
+        
+        
+                {% endif %}
+            </div>
+        </div>
 
-        <a href="{% url 'order_history_admin' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-pink-500 to-red-400 hover:from-pink-600 hover:to-red-500 active:from-pink-700 active:to-red-600 focus-visible:ring ring-pink-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-2">
-            <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;ประวัติการสั่งซื้อ
-        </a>
-
-        <a href="{% url 'show_pets' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-gray-500 to-gray-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
-            <i class="fa-solid fa-paw"></i>&nbsp;รายการสัตว์เลี้ยง
-        </a>
-        {% else %}
-        <a href="{% url 'cart_detail' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-orange-500 to-orange-300 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
-            <i class="fa-solid fa-whiskey-glass"></i>&nbsp;ตะกร้า
-        </a>
-
-        <a href="{% url 'foods' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-indigo-500 to-purple-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
-            <i class="fa-solid fa-utensils"></i>&nbsp;รายการอาหาร
-        </a>
-
-        <a href="{% url 'order' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-lime-500 to-lime-400 hover:from-indigo-600 hover:to-purple-500 active:from-indigo-700 active:to-purple-600 focus-visible:ring ring-indigo-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
-            <i class="fa-solid fa-cash-register"></i>&nbsp;คำสั่งซื้อ
-        </a>
-
-        <a href="{% url 'order_history' %}"
-            class="flex sm:inline-flex justify-center items-center bg-gradient-to-tr from-pink-500 to-red-400 hover:from-pink-600 hover:to-red-500 active:from-pink-700 active:to-red-600 focus-visible:ring ring-pink-300 text-white font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-2">
-            <i class="fa-solid fa-clock-rotate-left"></i>&nbsp;ประวัติการสั่งซื้อ
-        </a>
-        {% endif %}
     </div>
 </div>
-
-
-
 
 
 {% endblock %}

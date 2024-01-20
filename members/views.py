@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AddFoodForm, AddPetForm, RegisterForm,LoginForm,UserProfileForm,AddPointsForm
+from .forms import AddFoodForm, AddPetForm, EditOrderForm, ExPointsForm, ImageCoverForm, RegisterForm,LoginForm,UserProfileForm,AddPointsForm
 
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth import login,logout,authenticate
-from django.contrib.auth.views import LoginView
 
 from django.http import JsonResponse
 from django.views import View
@@ -13,6 +12,9 @@ from django.contrib import messages
 from django.core.mail import send_mail
 
 from django.db.models import Q
+
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.urls import reverse_lazy
 
 
 
@@ -27,10 +29,11 @@ def is_manager(user):
     return user.is_superuser and user.is_staff
 
 def home(request):
+    imgcover = ImageCover.objects.all()
     pet = Pet.objects.all()
     suggested_foods = Food.objects.filter(stock=True, suggested=True)
     news = New.objects.filter(display=True)
-    return render(request, "home.html",{'suggested_foods': suggested_foods,'news':news,'pets':pet,})
+    return render(request, "home.html",{'suggested_foods': suggested_foods,'news':news,'pets':pet,'imgcover':imgcover})
 
 @user_passes_test(is_login, login_url='/')
 def register(request):
@@ -53,8 +56,6 @@ def register(request):
     return render(request, "members/register.html", {"form": form})
 
 
-
-@user_passes_test(is_active_and_not_superuser, login_url='/')
 def edit_profile(request):
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)
 
@@ -226,22 +227,6 @@ def create_order(request):
 
     return redirect('send_order_email')
 
-# def create_order(request):
-#     user = request.user
-#     cart = Cart.objects.get(user=user)
-
-#     items_str = "\n".join([f"{item.food.name} - จำนวน: {item.quantity} จานละ: {item.food.price}" for item in cart.cartitem_set.all()])
-
-#     total_p = sum(item.total_price for item in cart.cartitem_set.all())
-    
-#     order = Order.objects.create(user=user, cart=cart, total_price=total_p,items=items_str)
-
-    
-#     cart.save()
-    
-
-#     return redirect('send_order_email')
-
 
 @login_required(login_url='login')
 @user_passes_test(is_active_and_not_superuser, login_url='/')
@@ -266,20 +251,10 @@ def send_order_email(request):
 @user_passes_test(is_active_and_not_superuser, login_url='/')
 def order_detail(request):
 
-    user_orders = Order.objects.filter(user=request.user,is_cancelled=False,is_paid=False).order_by('-id')
+    user_orders = Order.objects.filter(user=request.user,is_cancelled=False,is_paid=False).order_by('-date')
     total = sum(i.total_price for i in user_orders.all())
 
     return render(request, 'members/order_detail.html', {'orders': user_orders,'total':total})
-
-
-# @login_required(login_url='login')
-# @user_passes_test(is_active_and_not_superuser, login_url='/')
-# def order_detail(request):
-
-#     user_orders = Order.objects.filter(user=request.user,is_cancelled=False,is_paid=False).order_by('-id')
-#     total = sum(i.total_price for i in user_orders.all())
-
-#     return render(request, 'members/order_detail.html', {'orders': user_orders,'total':total})
 
 
 @login_required(login_url='login')
@@ -290,7 +265,7 @@ def order_history(request):
     total_cancel = (sum(i.total_price for i in user_orders_cancel.all()))
 
 
-    user_orders = Order.objects.filter(Q(user=request.user, is_cancelled=True, is_paid=False) | Q(user=request.user, is_paid=True, is_cancelled=False)).order_by('-id')    
+    user_orders = Order.objects.filter(Q(user=request.user, is_cancelled=True, is_paid=False) | Q(user=request.user, is_paid=True, is_cancelled=False)).order_by('-date')    
     total = (sum(i.total_price for i in user_orders.all())) - total_cancel
 
     return render(request, 'members/order_history.html', {'orders': user_orders,'total':total})
@@ -318,55 +293,49 @@ def add_points(request):
 
     return render(request, 'manager/add_points.html', {'form': form})
 
-# @login_required
-# def add_points(request):
-#     if request.method == 'POST':
-#         form = AddPointsForm(request.POST)
-#         if form.is_valid():
-#             phone_number = form.cleaned_data['phone_number']
-#             points_to_add = form.cleaned_data['points_to_add']
 
-#             user = User.objects.filter(userprofile__phone_number=phone_number).first()
-            
-#             if user:
-                
-#                 point, created = Point.objects.get_or_create(user=user)
-#                 point.total_points += points_to_add
-#                 point.save()
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/dashborad/')
+def exchange_points(request):
+    if request.method == 'POST':
+        form = ExPointsForm(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            points_to_add = form.cleaned_data['points_to_add']
 
-#                 # Point.add_points(user, points_to_add)
-#                 messages.success(request, f'คุณได้รับคะแนนเพิ่ม {points_to_add} คะแนน!')
+            # ค้นหาผู้ใช้จากเบอร์โทรศัพท์
+            user_points, created = Point.objects.get_or_create(user__userprofile__phone_number=phone_number)
 
-#                 return redirect('dashboard')
-#             else:
-#                 messages.error(request, 'ไม่พบผู้ใช้ด้วยเบอร์โทรศัพท์ที่ระบุ')
-#     else:
-#         form = AddPointsForm()
+            # เพิ่มคะแนน
+            if user_points.total_points <= 0:
+                user_points.total_points += 0
+            else:
+                user_points.save()
 
-#     return render(request,'manager/add_points.html',{'form': form})
+            return redirect('dashboard')
 
+    else:
+        form = ExPointsForm()
+
+    return render(request, 'manager/ex_points.html', {'form': form})
     
 
-
-from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from django.urls import reverse_lazy
-from django.shortcuts import render
 
 class ForgotPasswordView(PasswordResetView):
     template_name = 'forgot_password.html'
     email_template_name = 'forgot_password_email.html'
-    success_url = reverse_lazy('login')  # After successfully resetting the password
+    success_url = reverse_lazy('login')  
 
 class PasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'reset_password_confirm.html'
-    success_url = reverse_lazy('login')  # After successfully confirming the password reset
+    success_url = reverse_lazy('login') 
 
 
 @login_required(login_url='login')
 @user_passes_test(is_manager, login_url='/')
 def order_detail_admin(request):
 
-    orders = Order.objects.filter(is_cancelled=False,is_paid=False).order_by('-id')
+    orders = Order.objects.filter(is_cancelled=False,is_paid=False).order_by('-date')
     total = sum(i.total_price for i in orders.all())
 
     return render(request, 'manager/order_detail.html', {'orders': orders,'total':total})
@@ -380,7 +349,7 @@ def order_history_admin(request):
     total_cancel = (sum(i.total_price for i in user_orders_cancel.all()))
 
 
-    user_orders = Order.objects.filter(Q( is_cancelled=True, is_paid=False) | Q( is_paid=True, is_cancelled=False)).order_by('-id')    
+    user_orders = Order.objects.filter(Q( is_cancelled=True, is_paid=False) | Q( is_paid=True, is_cancelled=False)).order_by('-date')    
     total = (sum(i.total_price for i in user_orders.all())) - total_cancel
 
     return render(request, 'manager/order_history.html', {'orders': user_orders,'total':total})
@@ -475,3 +444,47 @@ def update_foods(request, id):
         form = AddFoodForm(instance=food)
 
     return render(request, 'manager/update_foods.html', {'form': form, 'foods': food})
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def update_order(request, id):
+    order = Order.objects.get(pk=id)
+    form = EditOrderForm(instance=order)
+    if request.method == 'POST':
+        form = EditOrderForm(request.POST, request.FILES, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('admin_order')
+        else:
+            form = EditOrderForm(instance=order)
+    else:
+        form = EditOrderForm(instance=order)
+
+    return render(request, 'manager/update_order.html', {'form': form, 'order': order})
+
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def add_imagecover(request):
+
+    imgcover = ImageCover.objects.all().order_by('-id')
+
+    form = ImageCoverForm()
+    if request.method == 'POST':
+        form = ImageCoverForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('add_imagecover')
+        else:
+            form = ImageCoverForm()
+    else:
+        form = ImageCoverForm()
+
+    return render(request, 'manager/add_imagecover.html', {'form': form,'imgcover':imgcover})
+
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def delete_imagecover(request,id):
+    imgcover = ImageCover.objects.get(pk=id).delete()
+    return redirect('add_imagecover')

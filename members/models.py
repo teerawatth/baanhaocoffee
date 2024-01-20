@@ -79,7 +79,7 @@ class Cart(models.Model):
         ordering = ['id']
 
     def calculate_total_price(self):
-        # คำนวณราคารวมจาก CartItem ที่อยู่ในตะกร้า
+        
         total_price = sum(cart_item.total_price for cart_item in self.cartitem_set.all())
         self.total_price = total_price
         self.save()
@@ -136,6 +136,8 @@ class Order(models.Model):
     items = models.TextField()
     number_of_seats = models.IntegerField(default=0)
 
+    date = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = 'คำสั่งซื้อ'
         verbose_name_plural = 'รายการคำสั่งซื้อ'
@@ -170,6 +172,10 @@ class Point(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     total_points = models.IntegerField(default=0)
 
+    class Meta:
+        verbose_name = 'คะแนน'
+        verbose_name_plural = 'คะแนน'
+
     def __str__(self):
         return f'{self.user.username} - Points: {self.total_points}'
 
@@ -182,3 +188,9 @@ class Point(models.Model):
         point.save()
 
 
+class ImageCover(models.Model):
+    img = models.ImageField(upload_to='imgcovers/')
+
+    class Meta:
+        verbose_name = 'รูปปก'
+        verbose_name_plural = 'รูปปก'

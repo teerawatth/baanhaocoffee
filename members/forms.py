@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Food, Pet, UserProfile
+from .models import Food, ImageCover, Order, Pet, UserProfile
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -45,6 +45,16 @@ class AddPointsForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'กรอกคะแนนที่ต้องการเพิ่ม', 'class': 'w-full px-3 py-2 border rounded-md text-sm'})
     )
 
+class ExPointsForm(forms.Form):
+    phone_number = forms.CharField(
+        label='เบอร์โทรศัพท์',
+        widget=forms.TextInput(attrs={'placeholder': 'กรอกเลขที่สมาชิก', 'class': 'w-full px-3 py-2 border rounded-md text-sm'})
+    )
+    points_to_add = forms.IntegerField(
+        label='คะแนนที่ต้องการแลก',
+        widget=forms.TextInput(attrs={'placeholder': 'กรอกคะแนนที่ต้องการแลก', 'class': 'w-full px-3 py-2 border rounded-md text-sm'})
+    )
+
 class AddPetForm(forms.ModelForm):
     class Meta:
         model = Pet
@@ -77,3 +87,31 @@ class AddFoodForm(forms.ModelForm):
             'stock' : 'มีสินค้า',
             'suggested' : 'เมนูแนะนำ',
         }
+
+class EditOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['items','total_price','number_of_seats','is_cancelled','is_paid']
+        exclude = ['user','cart']
+
+        labels = {
+            'items' : 'รายการ',
+            'total_price' : 'ราคารวม',
+            'number_of_seats' : 'โต๊ะ',
+            'is_cancelled' : 'การยกเลิก',
+            'is_paid' : 'ชำระเงินแล้ว',
+        }
+
+
+class ImageCoverForm(forms.ModelForm):
+    class Meta:
+        model = ImageCover
+        fields = '__all__'
+
+        labels = {
+            'img' : 'เลือกภาพปก',}
+        
+
+        widgets = {
+        'img': forms.ClearableFileInput(attrs={'class': 'block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer file:bg-gray-700 file:text-white'}),
+    }

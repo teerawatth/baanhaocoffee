@@ -59,6 +59,15 @@ class PointAdmin(admin.ModelAdmin):
     list_display = ('user','total_points',)
 
 
+class ImageCoverAdmin(admin.ModelAdmin):
+    list_display = ('id','display_image')
+
+    def display_image(self, obj):
+        if obj.img:
+            return format_html('<img src="{}" style="width: auto; height: 80px; border-radius: 12px; border:1px solid;" />', obj.img.url)
+        else:
+            return format_html('<img src="{}" style="width: auto; height: 80px; border-radius: 12px; border:1px solid;" />', 'no image')
+
     
 admin.site.register(New,NewAdmin)
 admin.site.register(Pet,PetAdmin)
@@ -68,5 +77,6 @@ admin.site.register(Cart,CartAdmin)
 admin.site.register(CartItem,CartItemAdmin)
 admin.site.register(Order,OrderAdmin)
 admin.site.register(Point,PointAdmin)
+admin.site.register(ImageCover,ImageCoverAdmin)
 
 

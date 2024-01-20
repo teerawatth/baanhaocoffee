@@ -32,7 +32,7 @@ urlpatterns = [
     path('update_foods/<int:id>', update_foods, name='update_foods'),
     path('delete_foods/<int:id>', delete_foods, name='delete_foods'),
 
-
+    path('update_order/<int:id>', update_order, name='update_order'),
 
 
     path('password_reset/', ForgotPasswordView.as_view(), name='password_reset'),
@@ -41,6 +41,11 @@ urlpatterns = [
     path('admin_order/', order_detail_admin, name='admin_order'),
     path('order_history_admin/', order_history_admin, name='order_history_admin'),
 
+    path('ex_points/', exchange_points, name='ex_points'),
+
+    path('add_imagecover/', add_imagecover, name='add_imagecover'),
+
+    path('delete_imagecover/<int:id>/', delete_imagecover, name='delete_imagecover'),
 
     ]
 

@@ -6,73 +6,98 @@
 
 <div class="text-xl text-center mt-5 mb-5 font-extrabold">ประวัติการสั่งซื้อ</div>
 
-<div class=" flex-col gap-2 justify-start max-w-4xl mx-auto">
-    <h1 class="ml-2 mr-2"><i class="fa-solid fa-list"></i>&nbsp;ประวัติการสั่งซื้อของลูกค้า</h1>
+<div class=" flex-col gap-2 justify-start max-w-6xl mx-auto">
+    <h1 class="ml-2 mr-2" style="font-family: K2D;"><i class="fa-solid fa-list"></i>&nbsp;ประวัติการสั่งซื้อของลูกค้า</h1>
 </div>
 
-<div class="flex flex-col gap-2 items-center justify-end mt-5 mr-2 ml-2">
-    <!-- Card 1 -->
-    {% if orders %}
-    {% for order in orders %}
-    <div
-        class="rounded-lg w-full max-w-4xl grid grid-cols-12  shadow shadow-md p-3 gap-2 items-center border border-gray-500 {% if order.is_paid == True %}bg-green-100{% else %} bg-red-100 {% endif %}">
 
-        <!-- ตำแหน่งรูปภาพ -->
-        <!-- <div class="col-span-1">
-            <img src="{{ cart_item.food.img.url }}" alt="Food Image" class="w-full h-auto rounded">
-        </div> -->
+<div class="max-w-6xl mx-auto">
+    <div class="overflow-y-hidden rounded-lg border mb-5 m-2 text-center">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-[#3b3b3b] text-left text-xs text-center font-semibold uppercase tracking-widest text-white">
+                        <th class="px-5 py-3">Order</th>
+                        <th class="px-5 py-3">ลูกค้า</th>
+                        <th class="px-5 py-3">รายการ</th>
+                        <th class="px-5 py-3">ราคา</th>
+                        <th class="px-5 py-3">โต๊ะ</th>
+                        <th class="w-40 py-3">state</th>
+                        <th class="px-5 py-3">points</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-500">
+                    {% if orders %}
+                    {% for order in orders %}
+                    
+                    <tr>
+                        
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="">{{order.id}}</p>
+                        </td>
 
-        <!-- ตำแหน่งข้อความ -->
-        <div class="col-span-10 xl">
-            <p class="text-[#4B5563] font-semibold">ลูกค้า {{ order.user }} {{ order.user.first_name }} {{ order.user.last_name }}</p>
-            <p class="text-[#4B5563] font-semibold"> เลขที่ออร์เดอร์ {{ order.id }} </p>
-            <p class="text-sm text-gray-800 font-light">รายการ {{ order.items }} </p>
-            <pre class="text-lg text-gray-800 font-light">รวม : {{ order.total_price }}</pre>
-            <p class="text-sm text-gray-800 font-light">โต๊ะ {{ order.number_of_seats }} </p>
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="">{{ order.user }} {{ order.user.first_name }} {{ order.user.last_name }}</p>
+                        </td>
+    
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="">{{order.items}}</p>
+                        </td>
 
-            <div class="flex justify-between items-center">
-                <p class="text-sm text-gray-800 font-light">
-                    สถานะ :
-                    {% if order.is_paid == True %}
-                    เสร็จสิ้น
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <span
+                                class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">{{order.total_price}}</span>
+                        </td>
+
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">{{order.number_of_seats}}</p>
+                        </td>
+                        
+
+
+                        <td class="border-b border-gray-200 bg-white w-40 py-5 text-sm">
+                            
+                                
+                                {% if order.is_paid == True %}
+                                <span
+                                class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
+                                เสร็จสิ้น</span>
+                                {% else %}
+                                <span
+                                class="rounded-full bg-red-200 px-3 py-1 text-xs font-semibold text-green-900">
+                                ยกเลิกแล้ว</span>
+                                
+                                {% endif %}
+                        </td>
+                        
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap"><i class="fa-solid fa-star text-green-500"></i>&nbsp; ได้รับ {{ order.total_price }} คะแนน</p>
+                        </td>
+    
+                    </tr>
+                
+                    {% endfor %}
                     {% else %}
-                    ยกเลิกแล้ว
+                    <tr>
+                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">ไม่มีรายการ</p>
+                        </td>
+                    </tr>
                     {% endif %}
-                </p>
-                <p class="text-sm text-right text-gray-800 font-light">
-                    {% if order.is_paid == True %}
-                    <i class="fa-solid fa-star text-green-500"></i>&nbsp; ได้รับ {{ order.total_price }} คะแนน
-                    {% endif %}
-                </p>
-            </div>
+                </tbody>
+            </table>
         </div>
-
-
-
-
+    
     </div>
-    {% endfor %}
-    {% else %}
-    <div
-        class="rounded-lg w-full max-w-4xl grid grid-cols-12 bg-blue-100 shadow shadow-md p-3 gap-2 items-center border border-gray-500">
-
-        <div class="col-span-10 xl">
-            <p class="text-[#4B5563] font-semibold"> ยังไม่มีรายการออร์เดอร์ </p>
-        </div>
-
     </div>
-    {% endif %}
 
 
-</div>
-
-
-
-<div class=" flex-col gap-2 justify-start max-w-4xl mx-auto mb-10">
-    <h1 class="text-lg font-semibold mt-5 ml-2 mr-2"><i
+<div class=" flex-col gap-2 justify-start max-w-6xl mx-auto mb-10">
+    <h1 class="text-lg font-semibold mt-5 ml-2 mr-2" style="font-family: K2D,sans-serif;"><i
             class="fa-solid fa-file-invoice-dollar"></i>&nbsp;ราคารวมทั้งหมด: {{ total|floatformat:2 }} บาท
     </h1>
 </div>
+
 
 
 {% endblock %}
