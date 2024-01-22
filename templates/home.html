@@ -36,7 +36,7 @@
 
 </head>
 
-<body class="" style="font-family: 'K2D', sans-serif;">
+<body class="bg-[#edd1be]" style="font-family: 'K2D', sans-serif;">
 
     <nav class="bg-[#7e6663] border-[#3b3b3b] py-2">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
@@ -215,7 +215,7 @@
     {% for n in news %}
     <div class="m-2 ">
         <div class="max-w-screen-sm mx-auto border border-2 border-green-400 rounded-lg shadow-2xl text-gray-600">
-            <div class='relative m-0 shadow-lg flex bg-green-400'>
+            <div class='relative m-0 shadow-lg flex bg-[#ffe591]'>
                 <div class='flex-1 card-block relative ml-4'>
                     <div class="">
                         <h4 class='font-medium text-xl mb-3 mt-3 text-center'><i class="fa-solid fa-scroll"></i> &nbsp;
@@ -243,14 +243,14 @@
 
     {% for f in suggested_foods %}
     <div class="m-2 ">
-        <div class="max-w-screen-sm mx-auto border border-2 border-gray-800 rounded-lg shadow-2xl text-white">
-            <div class='relative m-0 shadow-lg flex bg-gray-700'>
+        <div class="max-w-sm mx-auto border border-2 rounded-lg shadow-2xl text-gray-900">
+            <div class='relative m-0 shadow-lg flex bg-zinc-300	'>
                 <div class='flex-no-shrink'>
-                    <img alt='' class='w-auto h-32 block mx-auto rounded-tl-lg rounded-bl-lg' src='{{f.img.url}}'>
+                    <img alt='' class='w-auto h-28 block mx-auto rounded-tl-lg rounded-bl-lg object-cover'  src='{{f.img.url}}'>
                 </div>
                 <div class='flex-1 card-block relative ml-4'>
                     <div class="">
-                        <h4 class='font-medium text-2xl mb-3 mt-3'>{{f.name}}</h4>
+                        <p class='font-medium text-2xl mb-3 mt-3'>{{f.name}}</p>
                         <p class='leading-normal'>{{f.price}} ฿</p>
                     </div>
                 </div>
@@ -278,6 +278,7 @@
         #calendar .fc-event {
             background-color: #3b3b3b;
             border: #3b3b3b solid 0.5px;
+            font-family: 'K2D';
         }
 
         .mySlides {

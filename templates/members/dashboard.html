@@ -64,7 +64,7 @@
     <div>
 
         <div
-            class="bg-white relative w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
+            class=" relative w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
             <div class="flex flex-wrap justify-center gap-4 p-4">
                 {% if user.is_staff %}
                 <a href="{% url 'add_points' %}"
@@ -98,6 +98,11 @@
                 <a href="{% url 'add_imagecover' %}"
                     class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
                     <i class="fa-solid fa-images"></i>&nbsp;ภาพปก
+                </a>
+
+                <a href="{% url 'show_news' %}"
+                    class="flex sm:inline-flex justify-center items-center bg-[#7e6663] border border-[#3b3b3b] text-white hover:bg-[#3b3b3b] font-semibold text-center rounded-md outline-none transition duration-100 px-5 py-5">
+                    <i class="fas fa-newspaper"></i>&nbsp;ข่าวสาร
                 </a>
         
                 {% else %}

@@ -44,8 +44,14 @@ urlpatterns = [
     path('ex_points/', exchange_points, name='ex_points'),
 
     path('add_imagecover/', add_imagecover, name='add_imagecover'),
+    
 
     path('delete_imagecover/<int:id>/', delete_imagecover, name='delete_imagecover'),
+    path('delete_news/<int:id>/', delete_news, name='delete_news'),
+    path('update_news_true/<int:id>/', update_news_true, name='update_news_true'),
+    path('update_news_false/<int:id>/', update_news_false, name='update_news_false'),
 
+    path('add_news/', add_news, name='add_news'),
+    path('show_news/', show_news, name='show_news'),
     ]
 

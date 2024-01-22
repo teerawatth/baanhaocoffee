@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Food, ImageCover, Order, Pet, UserProfile
+from .models import Food, ImageCover, New, Order, Pet, UserProfile
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -115,3 +115,14 @@ class ImageCoverForm(forms.ModelForm):
         widgets = {
         'img': forms.ClearableFileInput(attrs={'class': 'block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer file:bg-gray-700 file:text-white'}),
     }
+        
+class AddNewsForm(forms.ModelForm):
+    class Meta:
+        model = New
+        fields = '__all__'
+
+        labels = {
+            'headline' : 'หัวข้อข่าว',
+            'desc' : 'คำอธิบาย',
+            'display' : 'แสดงผล',
+        }

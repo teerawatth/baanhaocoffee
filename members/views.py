@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AddFoodForm, AddPetForm, EditOrderForm, ExPointsForm, ImageCoverForm, RegisterForm,LoginForm,UserProfileForm,AddPointsForm
+from .forms import AddFoodForm, AddNewsForm, AddPetForm, EditOrderForm, ExPointsForm, ImageCoverForm, RegisterForm,LoginForm,UserProfileForm,AddPointsForm
 
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth import login,logout,authenticate
@@ -488,3 +488,51 @@ def add_imagecover(request):
 def delete_imagecover(request,id):
     imgcover = ImageCover.objects.get(pk=id).delete()
     return redirect('add_imagecover')
+
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def add_news(request):
+
+    form = AddNewsForm()
+    if request.method == 'POST':
+        form = AddNewsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('show_news')
+        else:
+            form = AddNewsForm()
+    else:
+        form = AddNewsForm()
+
+    return render(request, 'manager/add_news.html', {'form': form,})
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def show_news(request):
+    news = New.objects.all()
+    return render(request, 'manager/show_news.html', {'news': news})
+
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def delete_news(request,id):
+    New.objects.get(pk=id).delete()
+    return redirect('show_news')
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def update_news_true(request,id):
+    news = New.objects.get(pk=id)
+    news.display = True
+    news.save()
+    return redirect('show_news')
+
+@login_required(login_url='login')
+@user_passes_test(is_manager, login_url='/')
+def update_news_false(request, id):
+    news = New.objects.get(pk=id)
+    news.display = False
+    news.save()
+    return redirect('show_news')
+
