@@ -277,7 +277,7 @@
     <style>
         #calendar .fc-event {
             background-color: #3b3b3b;
-            border: #3b3b3b;
+            border: #3b3b3b solid 0.5px;
         }
 
         .mySlides {
@@ -299,7 +299,7 @@
                     var eventHtml = '<div class="flex items-center">';
                     if (event.image) {
                         eventHtml += '<div class="items-center">';
-                        eventHtml += '<a href="/pets/' + event.id + '">';
+                        eventHtml += '<a href="pets/' + event.id + '/">';
                         eventHtml += '<img src="' + event.image + '" class="object-cover mx-auto w-auto">';
                         eventHtml += '</a>';
                         eventHtml += '<div class="font-bold mt-2 text-center">' + event.title + '</div>';
@@ -341,7 +341,7 @@
 
                                     <div class="flex items-center">
                                         <div class="h-10 w-10 flex-shrink-0">
-                                            <img class="h-full w-full rounded-full"
+                                            <img class="h-full w-full rounded-full object-cover"
                                                 src="{% if p.profile %} {{ p.profile.url }} {% else %}{% endif %}"
                                                 alt="" />
                                         </div>
@@ -375,7 +375,7 @@
 
         </div>
     </div>
-    
+
     {% endif %}
 
 

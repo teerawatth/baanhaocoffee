@@ -23,6 +23,7 @@
                 </tr>
             </thead>
             <tbody class="text-gray-500">
+                {% if pets %}
                 {% for p in pets %}
 
                 <tr>
@@ -34,7 +35,7 @@
 
                             <div class="flex items-center">
                                 <div class="h-10 w-10 flex-shrink-0">
-                                    <img class="h-full w-full rounded-full"
+                                    <img class="h-full w-full rounded-full object-cover"
                                         src="{% if p.profile %} {{ p.profile.url }} {% else %}{% endif %}" alt="" />
                                 </div>
                                 <div class="ml-3">
@@ -74,6 +75,13 @@
                 </tr>
                 {% endfor %}
 
+                {% else %}
+                <tr>
+                    <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <p class="whitespace-no-wrap">ไม่มีสัตว์เลี้ยง</p>
+                    </td>
+                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
