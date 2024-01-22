@@ -27,40 +27,5 @@
     </form>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
-<script>
-    function domReady(fn) {
-        if (document.readyState === "complete" || document.readyState === "interactive") {
-            setTimeout(fn, 1000);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
-        }
-    }
 
-    domReady(function () {
-        // If found your qr code
-        function onScanSuccess(decodeText, decodeResult) {
-            // ส่งข้อมูลที่ได้จากสแกนไปกรอกใน phone_number
-            document.getElementById('id_phone_number').value = decodeText;
-
-            // ปิดการสแกน
-            htmlScanner.stop();
-        }
-
-        let htmlScanner = new Html5QrcodeScanner(
-            "my-qr-reader",
-            {
-                fps: 10,
-                qrbox: 250,
-                cameraIdOrConfig: { facingMode: 'environment' },  // 'environment' หมายถึงกล้องหลัง
-                preferredCamera: 0,
-                autoStart: true,
-                disablePermissions: true,
-                disableScan: true
-            }
-        );
-
-        htmlScanner.render(onScanSuccess);
-    });
-</script>
 {% endblock %}
