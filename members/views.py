@@ -15,6 +15,8 @@ from django.db.models import Q
 
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.urls import reverse_lazy
+import requests
+
 
 
 
@@ -242,6 +244,15 @@ def send_order_email(request):
     recipient_list = [request.user.email]
     from_email = 'หมาแมวคาเฟ่@Dogcat.com'
     send_mail(subject, message, from_email, recipient_list)
+
+    url = 'https://notify-api.line.me/api/notify'
+    token = '1JUmb8nKSA7cHQcLuf1BN4GAuso6nA7GAQkrgLIhhCK'
+    headers = {'content-type':'application/x-www-form-urlencoded','Authorization':'Bearer '+token}
+
+    messageline = f'มีออเดอร์ใหม่!!!\n\nรายการสินค้า \n\n{items}\n\nรวม: {total} บาท\n\nโต๊ะ: {user_order.number_of_seats}\n\n'
+    r = requests.post(url, headers=headers, data = {'message':messageline})
+    print (r.text)
+
     cart.cartitem_set.all().delete()
 
     return redirect('order')
@@ -279,10 +290,8 @@ def add_points(request):
             phone_number = form.cleaned_data['phone_number']
             points_to_add = form.cleaned_data['points_to_add']
 
-            # ค้นหาผู้ใช้จากเบอร์โทรศัพท์
             user_points, created = Point.objects.get_or_create(user__userprofile__phone_number=phone_number)
 
-            # เพิ่มคะแนน
             user_points.total_points += points_to_add
             user_points.save()
 
@@ -303,10 +312,8 @@ def exchange_points(request):
             phone_number = form.cleaned_data['phone_number']
             points_to_add = form.cleaned_data['points_to_add']
 
-            # ค้นหาผู้ใช้จากเบอร์โทรศัพท์
             user_points, created = Point.objects.get_or_create(user__userprofile__phone_number=phone_number)
 
-            # เพิ่มคะแนน
             if user_points.total_points <= 0:
                 user_points.total_points += 0
             else:
